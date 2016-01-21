@@ -1,2 +1,2 @@
-# debian.linux.org.tw
+# www.debian.org.tw
 Debian Community site
