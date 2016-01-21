@@ -22,7 +22,7 @@ header {
 }
 
 footer {
-  padding: .5rem;
+  padding: .5rem 1.5rem;
   background: $black;
   color: $white;
   a {
@@ -34,4 +34,5 @@ footer {
 
 main {
   flex: 1;
+  padding: 1rem;
 }
