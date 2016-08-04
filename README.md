@@ -1,2 +1,1 @@
-# www.debian.org.tw
-Debian Community site
+Debian Taiwan Website
