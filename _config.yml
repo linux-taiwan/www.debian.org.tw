@@ -1,0 +1,124 @@
+# Welcome to Jekyll!
+
+
+# In addition to these settings, there is a file _data/tokens-template.yml
+# that you'll want to customize for your site. It's named 'tokens' because
+# that was it's original purpose, but because tokens.yml is .gitexcluded, it's
+# a good place to store your site-specific data that you'd rather not have
+# forked or cloned. Of course, that means you'd want to back it up elsewhere.
+
+# Also, for your post bylines, add author info for yourself in `_data/authors.yml`.
+# (Using that method instead of site.owner, in case your posts get cloned with your repo.)
+
+# Site settings
+title: Debian Taiwan Community 臺灣社群
+description: Debian  &#x2192; 致力於創建一個自由作業系統
+owner:
+  name: Debian 臺灣社群 # 
+  email: szlin@cs.nctu.edu.tw
+  url: http://szlin.wordpress.com
+first_published: 2016 # if migrating another site, the year of your first publish
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://www.debian.org.tw/" # the base hostname & protocol for your site
+
+# on landing page
+# - set the greeting only if you want to display the first green section
+greeting:
+  title: Welcome to Debian 臺灣社群!  
+  text: 臺灣 Debian 相關資源
+# - title for your blog's featured posts
+features-title: Featured topics
+# - displayed at the bottom
+closing-head: 加入我們
+closing-para: 一起為臺灣 Debian 社群貢獻!
+
+# on all pages (and the first three you list display with greeting, if included)
+social:
+  facebook-official: https://www.facebook.com/groups/debian.tw
+  users: http://moto.debian.tw
+  paper-plane-o: https://telegram.me/joinchat/AjVXxgN3ndobAH0cFp28WQ
+  google-plus-square: https://plus.google.com/communities/106482636420342329539
+  github: https://github.com/linux-taiwan/www.debian.org.tw
+  email: /contact/
+  debian-release: https://www.debian.org/releases/jessie/
+  #flickr:
+  #twitter: 
+  #instagram:
+  #youtube-square:
+  #spotify:
+  #stack-overflow:
+  #vimeo:
+  #reddit:
+  #stubleupon:
+  #delicious:
+  #pied-piper:
+  #digg:
+  #soundcloud:
+  #deviantart:
+  #angellist:
+  #linkedin-square: https://linkedin.com/in/arkadianriver
+  #tumblr-square:
+  #stackexchange:
+  #weibo:
+  #trello:
+  #foursquare:
+  #linux:
+  #bitbucket-square:
+  #vk:
+  #slack:
+  #vine:
+  #weixin:
+  #yelp:
+  #skyatlas:
+  #leanpub:
+  #connectdevelop:
+  #ils:
+  #forumbee:
+  #tripadvisor:
+  #amazon:
+
+# if you use this repo's `ruby compose.rb` script to initiate new posts, put the
+# command to invoke your editor here. (I didn't spend time dealing with spaces
+# and full paths of the various OSes in compose.rb. For my Windows
+# environment, I just put a subl.cmd file in my PATH that points to the full
+# path to Sublime's subl.exe.) Also, put your most common post extension.
+compose:
+  editor: subl
+  extension: md
+
+# choose where to put back and next links:
+# top, bottom, both, none
+navlinks: bottom
+
+# expecting more works? mark your list as in-progress
+works_in_progress: yes
+
+# If you have custom extensions, specifically includes/_my/custom.scss,
+# set this to yes
+custom_extensions: no
+
+# Build settings
+permalink: /:categories/:title.html
+markdown: kramdown
+#sass:
+#  style: compressed
+exclude: ['site.bat','compose.rb','README.md']
+include: ['_pages','.htaccess']
+defaults:
+  - scope:
+      path: _pages
+    values:
+      layout: page
+      #permalink: /:slug/ # dunna work. See github.com/jekyll/jekyll/issues/2280
+  - scope:
+      path: _posts
+    values:
+      layout: post
+  - scope:
+      path: _drafts
+    values:
+      layout: post
+
+# to initialize arrays in assignments (assign myarr = site.empty_array)
+# (easier to grok than assign myarr = '' | split',')
+empty_array: []

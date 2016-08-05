@@ -1,0 +1,41 @@
+---
+key: 1
+title: 最新消息
+permalink: /works/
+excerpt: Debian 不僅僅是一個自由的作業系統&mdash;它還附帶了超過 43000 個套件，這些預先編譯好的軟體被包裹成一種良好的格式以便於在您的機器上進行安裝。
+image: jessie.jpg
+#background-image: jessie.jpg
+---
+{%
+if site.social.users %}
+<div class="table-wrapper">
+  <table class="alt"><tbody><tr><td style="text-align: center;">News
+  <a target="_blank" href="{{ site.social.debian-release }}">Debian 8.4 was released April 2nd, 2016.</a></td>
+  <!-- <a target="_blank" href="{{ site.social.linkedin-square }}">Debian 8.4 was released April 2nd, 2016.</a></td> --!>
+  </tr></tbody></table>
+</div>{%
+endif %}
+{%
+if site.categories.works %}
+<div class="table-wrapper">
+  <table>
+    <tbody>{%
+      include fn_groupsort_reverse.html unsorted=site.categories.works groupby='priority' sortby='date'
+%}{%  for work in sorted_list %}
+      <tr>
+        <td><b><a href="{{ work.url | prepend: site.baseurl }}">{{ work.title }}</a></b></td>
+        <td>{{ work.date | date: "%b %Y" }}</td>
+        <td>{{ work.excerpt | strip_html | truncatewords: 12 }}</td>
+        <td>
+          {% include techlist.html %}
+        </td>
+      </tr>{%
+      endfor %}
+    </tbody>
+  </table>
+</div>{%
+  if site.works_in_progress %}
+  <div class="works_inprogress">In-progress, more to come.</div>{%
+  endif %}{%
+endif
+%}
