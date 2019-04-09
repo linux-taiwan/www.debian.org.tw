@@ -1,3 +1,0 @@
-My extensions of site design and code: MIT, have at it
-(Core jekyll (MIT) and html5up (Creative Commons))
-See _pages/credits.html for complete listing.
