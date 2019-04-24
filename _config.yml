@@ -26,8 +26,6 @@ url: "http://www.debian.org.tw/" # the base hostname & protocol for your site
 greeting:
   title: Welcome to Debian 臺灣社群!
   text: 臺灣 Debian 相關資源
-# - title for your blog's featured posts
-features-title: Featured topics
 # - displayed at the bottom
 closing-head: 加入我們
 closing-para: 一起為臺灣 Debian 社群貢獻!
