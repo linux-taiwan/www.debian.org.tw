@@ -9,7 +9,9 @@ tags:
 ---
 
 #### 新版本發佈
-Debian 針對 Debian 9 (發行代號為stretch)發佈第六次更新，針對一些嚴重bug和安全問題進行更新。
+
+Debian 針對 Debian 9 (發行代號為stretch)發佈第六次更新，針對一些嚴重 bug 和安全問題進行更新。
 
 #### 參考
+
 - 詳細更新的內容可參考[官網公告](https://www.debian.org/News/2018/20181110)
