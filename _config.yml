@@ -89,7 +89,7 @@ compose:
 navlinks: bottom
 
 # expecting more works? mark your list as in-progress
-works_in_progress: yes
+works_in_progress: no
 
 # If you have custom extensions, specifically includes/_my/custom.scss,
 # set this to yes
