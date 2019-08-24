@@ -215,6 +215,9 @@ debmake
     gbp pq import --no-patch-num
 
     # 此時會切換到patch branch，開始做必要的更動並commit
+    git add ${modified files}
+    git ci -m "Fix xxx for debian package"
+    
     gbp pq export --no-patch-num
     ```
 
@@ -425,78 +428,82 @@ debmake
 1. 由於我們要在 SID 的環境執行(也就是不穩定的 Debian 版本)，可參考[這裡的設定](https://wiki.debian.org/PbuilderTricks)，先創立 `~/.pbuilderrc` (通常應該是 `/root/.pbuilderrc` )，然後貼上下面的內容
 
     ```sh
-    # Codenames for Debian suites according to their alias. Update these when
-    # needed.
-    UNSTABLE_CODENAME="sid"
-    TESTING_CODENAME="buster"
-    STABLE_CODENAME="stretch"
-    STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
+        # Codenames for Debian suites according to their alias. Update these when
+        # needed.
+        UNSTABLE_CODENAME="sid"
+        TESTING_CODENAME="bullseye"
+        STABLE_CODENAME="buster"
+        OLDSTABLE_CODENAME="stretch"
+        OLDOLDSTABLE_CODENAME="jessie"
+        STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
 
-    # List of Debian suites.
-    DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $STABLE_BACKPORTS_SUITE
-        "experimental" "unstable" "testing" "stable")
+        # List of Debian suites.
+        DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $STABLE_BACKPORTS_SUITE
+            "experimental" "unstable" "testing" "stable")
 
-    # List of Ubuntu suites. Update these when needed.
-    UBUNTU_SUITES=("xenial" "wily" "vivid" "utopic" "trusty")
+        # List of Ubuntu suites. Update these when needed.
+        UBUNTU_SUITES=("xenial" "wily" "vivid" "utopic" "trusty")
 
-    # Mirrors to use. Update these to your preferred mirror.
-    DEBIAN_MIRROR="deb.debian.org"
-    UBUNTU_MIRROR="mirrors.kernel.org"
+        # Mirrors to use. Update these to your preferred mirror.
+        DEBIAN_MIRROR="ftp.debian.org"
+        UBUNTU_MIRROR="mirrors.kernel.org"
 
-    # Optionally use the changelog of a package to determine the suite to use if
-    # none set.
-    if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
-        DIST=$(dpkg-parsechangelog --show-field=Distribution)
-    fi
-
-    # Optionally set a default distribution if none is used. Note that you can set
-    # your own default (i.e. ${DIST:="unstable"}).
-    : ${DIST:="$(lsb_release --short --codename)"}
-
-    # Optionally change Debian codenames in $DIST to their aliases.
-    case "$DIST" in
-        $UNSTABLE_CODENAME)
-            DIST="unstable"
-            ;;
-        $TESTING_CODENAME)
-            DIST="testing"
-            ;;
-        $STABLE_CODENAME)
-            DIST="stable"
-            ;;
-    esac
-
-    # Optionally set the architecture to the host architecture if none set. Note
-    # that you can set your own default (i.e. ${ARCH:="i386"}).
-    : ${ARCH:="$(dpkg --print-architecture)"}
-
-    NAME="$DIST"
-    if [ -n "${ARCH}" ]; then
-        NAME="$NAME-$ARCH"
-        DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
-    fi
-    BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
-    DISTRIBUTION="$DIST"
-    BUILDRESULT="/var/cache/pbuilder/$NAME/result/"
-    APTCACHE="/var/cache/pbuilder/$NAME/aptcache/"
-    BUILDPLACE="/var/cache/pbuilder/build/"
-    HOOKDIR="/var/cache/pbuilder/hooks/"
-
-    if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
-        # Debian configuration
-        MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
-        COMPONENTS="main contrib non-free"
-        if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
-            OTHERMIRROR="$OTHERMIRROR | deb $MIRRORSITE $STABLE_BACKPORTS_SUITE $COMPONENTS"
+        # Optionally use the changelog of a package to determine the suite to use if
+        # none set.
+        if [ -z "${DIST}" ] && [ -r "debian/changelog" ]; then
+            DIST=$(dpkg-parsechangelog --show-field=Distribution)
         fi
-    elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
-        # Ubuntu configuration
-        MIRRORSITE="http://$UBUNTU_MIRROR/ubuntu/"
-        COMPONENTS="main restricted universe multiverse"
-    else
-        echo "Unknown distribution: $DIST"
-        exit 1
-    fi
+
+        # Optionally set a default distribution if none is used. Note that you can set
+        # your own default (i.e. ${DIST:="unstable"}).
+        : ${DIST:="$(lsb_release --short --codename)"}
+
+        # Optionally change Debian codenames in $DIST to their aliases.
+        case "$DIST" in
+            $UNSTABLE_CODENAME)
+                DIST="unstable"
+                ;;
+            $TESTING_CODENAME)
+                DIST="testing"
+                ;;
+            $STABLE_CODENAME)
+                DIST="stable"
+                ;;
+        esac
+
+        # Optionally set the architecture to the host architecture if none set. Note
+        # that you can set your own default (i.e. ${ARCH:="i386"}).
+        : ${ARCH:="$(dpkg --print-architecture)"}
+        NAME="$DIST"
+        if [ -n "${ARCH}" ]; then
+            NAME="$NAME-$ARCH"
+            DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
+        fi
+
+        BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
+        DISTRIBUTION="$DIST"
+        BUILDRESULT="/var/cache/pbuilder/$NAME/result/"
+        APTCACHE="/var/cache/pbuilder/$NAME/aptcache/"
+        BUILDPLACE="/var/cache/pbuilder/build/"
+        HOOKDIR="/var/cache/pbuilder/hooks/"
+
+        if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
+            # Debian configuration
+            MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
+            COMPONENTS="main contrib non-free"
+            if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
+                OTHERMIRROR="$OTHERMIRROR | deb $MIRRORSITE $STABLE_BACKPORTS_SUITE $COMPONENTS"
+            fi
+        elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
+            # Ubuntu configuration
+            MIRRORSITE="http://$UBUNTU_MIRROR/ubuntu/"
+            COMPONENTS="main restricted universe multiverse"
+        else
+            echo "Unknown distribution: $DIST"
+            exit 1
+        fi
+
+        PBUILDERSATISFYDEPENDSCMD="/usr/lib/pbuilder/pbuilder-satisfydepends-apt"
     ```
 
 1. 透過 `pbuilder` 建立 i386/amd64 兩個環境
