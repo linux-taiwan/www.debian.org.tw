@@ -23,7 +23,7 @@ layout: default
 %}{%      assign sorted_list = sorted_list | sort: 'date'
 %}{%    endif
 %}{%  endunless
-%}{%  if sorted_list and (site.navlinks == 'top' or site.navlinks == 'both')
+%}{%  if sorted_list and site.navlinks == 'top' or site.navlinks == 'both'
 %}{%    include fn_sortednav.html posclass='btntop'
 %}{%  endif
 %}{%  unless page.options contains 'minihead' %}
@@ -40,7 +40,7 @@ layout: default
       {{ content }}{%
 
 
-      if sorted_list and (site.navlinks == 'bottom' or site.navlinks == 'both')
+      if sorted_list and site.navlinks == 'bottom' or site.navlinks == 'both'
 %}{%    unless perma
 %}{%      assign perma = '/topics/'
 %}{%    endunless
